@@ -17,7 +17,7 @@ public class Background {
 	
 	
 	public Background() {		//constructor sets background as it is
-		img = getImage("/Images/ghetto.png");
+		img = getImage("/Images/background.gif");
 		
 		x = 0;
 		y = 0;
@@ -39,7 +39,7 @@ public class Background {
 	}
 	private void update() {				//fits it on the screen
 		tx.setToTranslation(x, y);
-		tx.scale(1.48,1.48);
+		tx.scale(0.75,0.75);
 	}
 	
 	private void init(double a, double b) {
