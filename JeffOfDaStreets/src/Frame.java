@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -19,7 +20,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 
 	Background b = new Background();
 	Jeff j = new Jeff();
-	
+	Bob j2 = new Bob();
 	
 	
 	
@@ -28,6 +29,19 @@ public void paint(Graphics g) {
 		super.paintComponents(g);
 		b.paint(g);
 		j.paint(g);
+		j2.paint(g);
+		
+		g.setColor(Color.red);
+		g.drawRect((int)j.getX()+15, (int)j.getY()+70, 120, 80);
+		
+		g.setColor(Color.red);
+		g.drawRect((int)j2.getX()+15, (int)j2.getY()+70, 120, 80);
+		
+		
+		
+		hit();
+		
+		
 	}
 	
 	
@@ -50,6 +64,36 @@ public void paint(Graphics g) {
 		f.setVisible(true);
 	}
 	
+	public void hit() {
+		
+		Rectangle jeffHitBox = new Rectangle((int)j.getX()+15, (int)j.getY()+70, 120, 80);
+		Rectangle bobHitBox = new Rectangle((int)j2.getX()+15, (int)j2.getY()+70, 120, 80);
+		
+		if(jeffHitBox.intersects(bobHitBox) || bobHitBox.intersects(jeffHitBox)) {
+			if(j.getY() < j2.getY() && j.getVy() > 0 && j2.getIFrame() == 0) {
+				
+				System.out.println("bob killed");
+				//j2.setX(700);
+				j2.iFramesInitiate();
+				
+				j.setVx(-1*j.getVx());
+				j.setVy(-1.5*j.getVy());
+			}
+			if(j2.getY() < j.getY() && j2.getVy() > 0 && j.getIFrame() == 0) {
+				
+				System.out.println("jeff killed");
+				//j.setX(200);
+				j.iFramesInitiate();
+				
+				j2.setVx(-1*j2.getVx());
+				j2.setVy(-1.5*j2.getVy());
+			}
+			
+		}
+	}
+	
+	
+	
 	
 	
 	
@@ -66,28 +110,56 @@ public void paint(Graphics g) {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println(e.getKeyCode());
-		//System.out.println(j.getY());
+		//System.out.println(e.getKeyCode());
+		//System.out.println(j.getDoubleJump());
 		
 		//JEFF:
 		//RIGHT = 68
 		//UP = 87
 		//LEFT = 65
+		//DOWN 83
+		if(j.getIFrame() == 0 || j.getIFrame() > 140) {
 		
-		//BOB:
-		//LEFT = 37
-		//UP = 38
-		//LEFT = 39
-		
-		if(e.getKeyCode() == 68) {
+		if(e.getKeyCode() == 68) { //JEFF MOVE
 			j.setVx(10);
 		}
 		if(e.getKeyCode() == 65) {
 			j.setVx(-10);
 		}
-		if(j.getY() > 460) {
-		if(e.getKeyCode() == 87) {
-			j.setVy(-15);
+		
+		if(e.getKeyCode() == 87 && j.getDoubleJump() > 0) { //double jump
+			j.setVy(-12.5);
+			j.doubleJumpCount();
+		}
+		
+		if(e.getKeyCode() == 83) {
+			
+			j.setVy(15);
+		}
+		
+		}
+		
+		        //BOB:
+				//LEFT = 37
+				//UP = 38
+				//LEFT = 39
+		        //DOWN 40
+		if(j2.getIFrame() == 0 || j2.getIFrame() > 140) {
+		
+		if(e.getKeyCode() == 39) { //BOB MOVE
+			j2.setVx(10);
+		}
+		if(e.getKeyCode() == 37) {
+			j2.setVx(-10);
+		}
+		
+		if(e.getKeyCode() == 38 && j2.getDoubleJump() > 0) {
+			j2.setVy(-12.5);
+			j2.doubleJumpCount();
+		}
+        if(e.getKeyCode() == 40) {
+			
+			j2.setVy(15);
 		   }
 		}
 	}
@@ -95,15 +167,36 @@ public void paint(Graphics g) {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getKeyCode() == 68) {
+		if(j.getY() > 465) {
+		if(e.getKeyCode() == 68) { //JEFF MOVE
 			j.setVx(0);
 		}
 		if(e.getKeyCode() == 65) {
 			j.setVx(0);
+		   }
 		}
 		if(e.getKeyCode() == 87) {
 			j.setVy(0);
 		}
+		if(j.getY() > 465) {
+			j.setVy(0);
+		}
+		
+		if(j2.getY() > 465) {
+		if(e.getKeyCode() == 39) { //BOB MOVE
+			j2.setVx(0);
+		}
+		if(e.getKeyCode() == 37) {
+			j2.setVx(0);
+		   }
+		}
+		
+		if(e.getKeyCode() == 38) {
+			j2.setVy(0);
+		}
+		if(j2.getY() > 465) {
+			j2.setVy(0);
+		   }
 	}
 
 	@Override

@@ -1,4 +1,5 @@
-import java.awt.Color;
+
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -6,8 +7,8 @@ import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
 
-public class Jeff {
-
+public class Bob {
+	
 	private double x, y;
 	private double vx, vy;
 	private Image img;
@@ -19,10 +20,10 @@ public class Jeff {
 	private double physRight;
 	private int iFrame;
 	
-	public Jeff() {
-		img = getImage("/Images/jeffIdleRight.gif");       //initial image and coordinates
-		faceRight = true;
-		x = 200;
+	public Bob() {
+		img = getImage("/Images/bobIdleLeft.gif");       //initial image and coordinates
+		faceRight = false;
+		x = 800;
 		y = 465; 
 	
 		tx = AffineTransform.getTranslateInstance(x, y);
@@ -40,16 +41,14 @@ public class Jeff {
 		
 	}
 	
-	
 	private void update() {				//fits it on the screen
 		tx.setToTranslation(x, y);
 		tx.scale(1.5,1.5);
-
-		gravity();
+		
 		physicLeft();
 		physicRight();
+		gravity();
 		iFrames();
-		
 		x+=vx;
 
 		if(y > 464) { //the ground
@@ -69,28 +68,27 @@ public class Jeff {
 			y = -70;
 			vy = 15;
 		}
-		
 		if(faceRight == true && vy != 0) {
-			changePicture("/Images/jeffFlyRight.png");
+			changePicture("/Images/bobFlyRight.png");
 			tx.scale(0.3,0.3);
 		}
 		if(faceRight == false && vy != 0) {
-			changePicture("/Images/jeffFlyLeft.png");
+			changePicture("/Images/bobFlyLeft.png");
 			tx.scale(0.3,0.3);
 		}
 		
 		if(vx > 0 && y > 465) {
 			faceRight = true;
-			changePicture("/Images/jeffIdleRight.gif");
+			changePicture("/Images/bobIdleRight.gif");
 			tx.scale(0.3,0.3);
 		}
 		if(vx < 0 && y > 465) {
 			faceRight = false;
-			changePicture("/Images/jeffIdleLeft.gif");
+			changePicture("/Images/bobIdleLeft.gif");
 			tx.scale(0.3,0.3);
 		}
 		if(iFrame > 0) {
-			changePicture("/Images/jeffSquashed.gif");
+			changePicture("/Images/bobSquashed.gif");
 			tx.scale(0.3,0.3);
 		}
 	}
@@ -102,16 +100,16 @@ public class Jeff {
 		vy+=accelerate;
 	}
 	
-	public void physicLeft() {
+   public void physicLeft() {
 		
-		if(vx < 0 ) {
+		if(vx < 0) {
 		physLeft = 0.1;
 		vx+=physLeft;
 		}
 	}
     public void physicRight() {
 		
-		if(vx > 0 ) {
+		if(vx > 0) {
 		physRight = 0.1;
 		vx-=physRight;
 		}
@@ -121,8 +119,7 @@ public class Jeff {
 		
 		doubleJump --;
 	}
-	
-	public void iFramesInitiate() {
+    public void iFramesInitiate() {
 		
 		iFrame=1;
 	}
@@ -135,9 +132,11 @@ public class Jeff {
 		if(iFrame > 180) {
 			iFrame = 0;
 			System.out.println("off");
-			vx = 0.001;
+			vx=0.001;
 		}
 	}
+	
+	
 	
 	
 	
@@ -155,7 +154,7 @@ public class Jeff {
 		 Image tempImage = null;
 		
 		 try {
-			 URL imageURL = Jeff.class.getResource(path);
+			 URL imageURL = Bob.class.getResource(path);
 			 tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
 		 } catch (Exception e) {
 			 e.printStackTrace();
@@ -202,3 +201,5 @@ public class Jeff {
 		return iFrame;
 	}
 }
+
+
