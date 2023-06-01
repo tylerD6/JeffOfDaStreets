@@ -18,6 +18,8 @@ public class Jeff {
 	private double physLeft;
 	private double physRight;
 	private int iFrame;
+	private int health = 100;
+	private boolean dead = false;
 	
 	public Jeff() {
 		img = getImage("/Images/jeffIdleRight.gif");       //initial image and coordinates
@@ -69,6 +71,15 @@ public class Jeff {
 			y = -70;
 			vy = 15;
 		}
+		if(health < 0) {
+			health = 0;
+		}
+        if(health == 0) {
+			
+			dead = true;
+			y = 900;
+			vy=0;
+        }
 		
 		if(faceRight == true && vy != 0) {
 			changePicture("/Images/jeffFlyRight.png");
@@ -130,15 +141,18 @@ public class Jeff {
 		
 		if(iFrame > 0) {
 			iFrame++;
-			System.out.println(iFrame);
+			//System.out.println(iFrame);
 		}
 		if(iFrame > 180) {
 			iFrame = 0;
-			System.out.println("off");
+			//System.out.println("off");
 			vx = 0.001;
 		}
 	}
-	
+	public void damageJump() {
+		
+		health-=9;
+	}
 	
 	
 	
@@ -200,5 +214,11 @@ public class Jeff {
 	}
 	public int getIFrame() {
 		return iFrame;
+	}
+	public int getHealth() {
+		return health;
+	}
+	public boolean getDead() {
+		return dead;
 	}
 }

@@ -19,6 +19,8 @@ public class Bob {
 	private double physLeft;
 	private double physRight;
 	private int iFrame;
+	private int health = 100;
+	private boolean dead = false;
 	
 	public Bob() {
 		img = getImage("/Images/bobIdleLeft.gif");       //initial image and coordinates
@@ -49,6 +51,7 @@ public class Bob {
 		physicRight();
 		gravity();
 		iFrames();
+		death();
 		x+=vx;
 
 		if(y > 464) { //the ground
@@ -68,6 +71,16 @@ public class Bob {
 			y = -70;
 			vy = 15;
 		}
+		if(health < 0) {
+			health = 0;
+		}
+        if(health == 0) {
+ 			
+ 			dead = true;
+ 			y = 900;
+ 			vy=0;
+ 		}
+        
 		if(faceRight == true && vy != 0) {
 			changePicture("/Images/bobFlyRight.png");
 			tx.scale(0.3,0.3);
@@ -127,15 +140,28 @@ public class Bob {
 		
 		if(iFrame > 0) {
 			iFrame++;
-			System.out.println(iFrame);
+			//System.out.println(iFrame);
 		}
 		if(iFrame > 180) {
 			iFrame = 0;
-			System.out.println("off");
+			//System.out.println("off");
 			vx=0.001;
 		}
 	}
+     public void damageJump() {
+		
+		health-=9;
+	}
 	
+     public void death() {
+ 		
+ 		if(health == 0) {
+ 			
+ 			dead = true;
+ 			y = 900;
+ 			vy=0;
+ 		}
+ 	}
 	
 	
 	
@@ -199,6 +225,12 @@ public class Bob {
 	}
 	public int getIFrame() {
 		return iFrame;
+	}
+	public int getHealth() {
+		return health;
+	}
+	public boolean getDead() {
+		return dead;
 	}
 }
 

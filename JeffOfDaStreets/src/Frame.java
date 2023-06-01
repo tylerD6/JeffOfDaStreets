@@ -21,6 +21,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Background b = new Background();
 	Jeff j = new Jeff();
 	Bob j2 = new Bob();
+	JeffHealthBar h1 = new JeffHealthBar();
+	BobHealthBar h2 = new BobHealthBar();
 	
 	
 	
@@ -30,6 +32,10 @@ public void paint(Graphics g) {
 		b.paint(g);
 		j.paint(g);
 		j2.paint(g);
+		h1.paint(g);
+		h2.paint(g);
+		
+		Font jeffFont = new Font("Courier New", Font.BOLD, 30);
 		
 		g.setColor(Color.red);
 		g.drawRect((int)j.getX()+15, (int)j.getY()+70, 120, 80);
@@ -37,7 +43,28 @@ public void paint(Graphics g) {
 		g.setColor(Color.red);
 		g.drawRect((int)j2.getX()+15, (int)j2.getY()+70, 120, 80);
 		
+		g.setFont(jeffFont);
+		if(j.getHealth() > 49) {
+			g.setColor(Color.green);
+			}
+			if(j.getHealth() > 20 && j.getHealth() < 50) {
+				g.setColor(Color.yellow);
+			}
+			if(j.getHealth() <=20) {
+				g.setColor(Color.red);
+			}
+		g.drawString(":"+(Integer.toString(j.getHealth())+"%"), 210, 675);
 		
+		if(j2.getHealth() > 49) {
+		g.setColor(Color.green);
+		}
+		if(j2.getHealth() > 20 && j2.getHealth() < 50) {
+			g.setColor(Color.yellow);
+		}
+		if(j2.getHealth() <=20) {
+			g.setColor(Color.red);
+		}
+		g.drawString(":"+(Integer.toString(j2.getHealth())+"%"), 900, 675);
 		
 		hit();
 		
@@ -72,18 +99,20 @@ public void paint(Graphics g) {
 		if(jeffHitBox.intersects(bobHitBox) || bobHitBox.intersects(jeffHitBox)) {
 			if(j.getY() < j2.getY() && j.getVy() > 0 && j2.getIFrame() == 0) {
 				
-				System.out.println("bob killed");
+				System.out.println("bob hit");
 				//j2.setX(700);
 				j2.iFramesInitiate();
+				j2.damageJump();
 				
 				j.setVx(-1*j.getVx());
 				j.setVy(-1.5*j.getVy());
 			}
 			if(j2.getY() < j.getY() && j2.getVy() > 0 && j.getIFrame() == 0) {
 				
-				System.out.println("jeff killed");
+				System.out.println("jeff hit");
 				//j.setX(200);
 				j.iFramesInitiate();
+				j.damageJump();
 				
 				j2.setVx(-1*j2.getVx());
 				j2.setVy(-1.5*j2.getVy());
@@ -118,6 +147,9 @@ public void paint(Graphics g) {
 		//UP = 87
 		//LEFT = 65
 		//DOWN 83
+		
+		if(j.getDead() == false && j2.getDead() == false) {
+		
 		if(j.getIFrame() == 0 || j.getIFrame() > 140) {
 		
 		if(e.getKeyCode() == 68) { //JEFF MOVE
@@ -160,8 +192,9 @@ public void paint(Graphics g) {
         if(e.getKeyCode() == 40) {
 			
 			j2.setVy(15);
-		   }
-		}
+		    }
+		  }
+	   }
 	}
 
 	@Override
