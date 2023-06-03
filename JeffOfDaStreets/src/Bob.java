@@ -204,6 +204,9 @@ public class Bob {
 	public double getVy() {
 		return vy;
 	}
+	public boolean getFaceRight() {
+		return faceRight;
+	}
 	public void setX(double newX) {
 		x = newX;
 	}

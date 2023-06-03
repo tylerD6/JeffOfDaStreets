@@ -23,6 +23,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Bob j2 = new Bob();
 	JeffHealthBar h1 = new JeffHealthBar();
 	BobHealthBar h2 = new BobHealthBar();
+	JeffSpittle s = new JeffSpittle();
+	BobSpittle s2 = new BobSpittle();
+	JeffAbilityUI a = new JeffAbilityUI();
+	BobAbilityUI a2 = new BobAbilityUI();
 	
 	
 	
@@ -34,14 +38,25 @@ public void paint(Graphics g) {
 		j2.paint(g);
 		h1.paint(g);
 		h2.paint(g);
+		s.paint(g);
+		s2.paint(g);
+		a.paint(g);
+		a2.paint(g);
+		
 		
 		Font jeffFont = new Font("Courier New", Font.BOLD, 30);
 		
-		g.setColor(Color.red);
+		g.setColor(Color.red); //HITBOX FOR JEFF
 		g.drawRect((int)j.getX()+15, (int)j.getY()+70, 120, 80);
 		
-		g.setColor(Color.red);
+		g.setColor(Color.red); //HITBOX FOR BOB
 		g.drawRect((int)j2.getX()+15, (int)j2.getY()+70, 120, 80);
+		
+		g.setColor(Color.blue);
+		g.drawRect((int)s.getX()+60,(int)s.getY()+10, 80, 60);
+		g.drawRect((int)s2.getX()+60,(int)s2.getY()+10, 80, 60);
+		
+		
 		
 		g.setFont(jeffFont);
 		if(j.getHealth() > 49) {
@@ -66,12 +81,25 @@ public void paint(Graphics g) {
 		}
 		g.drawString(":"+(Integer.toString(j2.getHealth())+"%"), 900, 675);
 		
+		
+		
 		hit();
-		
-		
-	}
-	
-	
+		rechargeJeff();
+}
+
+    public void rechargeJeff() {
+    	//System.out.println(a.getReady());
+    	if(s.getY() == -500) {
+    		//System.out.println("ready");
+    		a.setReady(true);
+    	}
+    	if(s2.getY() == -500) {
+    		a2.setReady(true);
+    	}
+    }
+
+
+
 	public static void main(String args[]) {
 		
 		Frame f = new Frame();
@@ -139,7 +167,7 @@ public void paint(Graphics g) {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		//System.out.println(e.getKeyCode());
+		System.out.println(e.getKeyCode());
 		//System.out.println(j.getDoubleJump());
 		
 		//JEFF:
@@ -168,7 +196,46 @@ public void paint(Graphics g) {
 			
 			j.setVy(15);
 		}
-		
+		if(e.getKeyCode() == 69 && s.getVx() == 0) { //JEFF SHOOT PROJECTILE
+			
+			a.setReady(false);
+			
+			if(j.getFaceRight() == true) { 
+			s.setX(j.getX()+50);
+			s.setY(j.getY()+70);
+			
+			s.setVx(10);
+			
+			
+			}else{
+				s.setX(j.getX()-50);
+				s.setY(j.getY()+70);
+				
+				s.setVx(-10);
+				
+			}
+		   
+		   }
+         if(e.getKeyCode() == 155 && s2.getVx() == 0) { //BOB SHOOT PROJECTILE
+			
+        	 a2.setReady(false);
+        	 
+			if(j2.getFaceRight() == true) { 
+			s2.setX(j2.getX()+50);
+			s2.setY(j2.getY()+70);
+			
+			s2.setVx(10);
+			
+			
+			}else{
+				s2.setX(j2.getX()-50);
+				s2.setY(j2.getY()+70);
+				
+				s2.setVx(-10);
+				
+			}
+		   
+		   }
 		}
 		
 		        //BOB:

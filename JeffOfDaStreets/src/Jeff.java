@@ -221,4 +221,7 @@ public class Jeff {
 	public boolean getDead() {
 		return dead;
 	}
+	public boolean getFaceRight() {
+		return faceRight;
+	}
 }
