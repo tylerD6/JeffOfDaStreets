@@ -17,7 +17,7 @@ public class BobSpittle {
 	public BobSpittle() {		//constructor sets background as it is
 		img = getImage("/Images/bobSpittleRight.gif");
 		
-		x = -400;
+		x = -500;
 		y = -400;
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y); 				//initialize the location of the image
@@ -55,7 +55,7 @@ public class BobSpittle {
         if(x > 4000 || x < -3000) {
 			
 			x = -500;
-			y = -500;
+			y = -400;
 			vx = 0;
 			
 		}

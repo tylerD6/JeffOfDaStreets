@@ -150,8 +150,10 @@ public class Jeff {
 		}
 	}
 	public void damageJump() {
-		
 		health-=9;
+	}
+	public void damageSpittle() {
+		health-=7;
 	}
 	
 	

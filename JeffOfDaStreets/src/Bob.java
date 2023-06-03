@@ -149,9 +149,11 @@ public class Bob {
 		}
 	}
      public void damageJump() {
-		
 		health-=9;
 	}
+     public void damageSpittle() {
+    	 health-=7;
+     }
 	
      public void death() {
  		

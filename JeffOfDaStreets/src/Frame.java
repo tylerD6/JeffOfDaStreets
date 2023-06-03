@@ -45,6 +45,7 @@ public void paint(Graphics g) {
 		
 		
 		Font jeffFont = new Font("Courier New", Font.BOLD, 30);
+		Font charge = new Font("Courier New", Font.BOLD, 20);
 		
 		g.setColor(Color.red); //HITBOX FOR JEFF
 		g.drawRect((int)j.getX()+15, (int)j.getY()+70, 120, 80);
@@ -53,12 +54,12 @@ public void paint(Graphics g) {
 		g.drawRect((int)j2.getX()+15, (int)j2.getY()+70, 120, 80);
 		
 		g.setColor(Color.blue);
-		g.drawRect((int)s.getX()+60,(int)s.getY()+10, 80, 60);
+		g.drawRect((int)s.getX()+60,(int)s.getY()+10, 80, 60); //VISUAL HITBOX OF SPITTLE
 		g.drawRect((int)s2.getX()+60,(int)s2.getY()+10, 80, 60);
 		
 		
 		
-		g.setFont(jeffFont);
+		g.setFont(jeffFont); //HEALTH BAR
 		if(j.getHealth() > 49) {
 			g.setColor(Color.green);
 			}
@@ -81,6 +82,28 @@ public void paint(Graphics g) {
 		}
 		g.drawString(":"+(Integer.toString(j2.getHealth())+"%"), 900, 675);
 		
+		//CHARGE STATE
+		
+		g.setFont(charge);
+		
+		if(s.getY() == -500) {
+			g.setColor(Color.green);
+			g.drawString("READY",10,640);
+		}else {
+			
+			g.setColor(Color.red);
+			g.drawString("COOLDOWN",10,640);
+		}
+		
+		if(s2.getY() == -400) {
+			g.setColor(Color.green);
+			g.drawString("READY",695,640);
+		}else {
+			
+			g.setColor(Color.red);
+			g.drawString("COOLDOWN",695,640);
+		}
+		
 		
 		
 		hit();
@@ -93,7 +116,7 @@ public void paint(Graphics g) {
     		//System.out.println("ready");
     		a.setReady(true);
     	}
-    	if(s2.getY() == -500) {
+    	if(s2.getY() == -400) {
     		a2.setReady(true);
     	}
     }
@@ -119,13 +142,16 @@ public void paint(Graphics g) {
 		f.setVisible(true);
 	}
 	
-	public void hit() {
+	public void hit() { 
 		
-		Rectangle jeffHitBox = new Rectangle((int)j.getX()+15, (int)j.getY()+70, 120, 80);
-		Rectangle bobHitBox = new Rectangle((int)j2.getX()+15, (int)j2.getY()+70, 120, 80);
+		Rectangle jeffHitBox = new Rectangle((int)j.getX()+15, (int)j.getY()+70, 120, 80); //HITBOX OF JEFF
+		Rectangle bobHitBox = new Rectangle((int)j2.getX()+15, (int)j2.getY()+70, 120, 80); //HITBOX OF BOB
+		
+		Rectangle jeffSpittle = new Rectangle((int)s.getX()+60,(int)s.getY()+10, 80, 60);
+		Rectangle bobSpittle = new Rectangle((int)s2.getX()+60,(int)s2.getY()+10, 80, 60);
 		
 		if(jeffHitBox.intersects(bobHitBox) || bobHitBox.intersects(jeffHitBox)) {
-			if(j.getY() < j2.getY() && j.getVy() > 0 && j2.getIFrame() == 0) {
+			if(j.getY() < j2.getY() && j.getVy() > 0 && j2.getIFrame() == 0) { //BOB HITS JEFF
 				
 				System.out.println("bob hit");
 				//j2.setX(700);
@@ -135,7 +161,7 @@ public void paint(Graphics g) {
 				j.setVx(-1*j.getVx());
 				j.setVy(-1.5*j.getVy());
 			}
-			if(j2.getY() < j.getY() && j2.getVy() > 0 && j.getIFrame() == 0) {
+			if(j2.getY() < j.getY() && j2.getVy() > 0 && j.getIFrame() == 0) { //JEFF HITS BOB
 				
 				System.out.println("jeff hit");
 				//j.setX(200);
@@ -145,8 +171,23 @@ public void paint(Graphics g) {
 				j2.setVx(-1*j2.getVx());
 				j2.setVy(-1.5*j2.getVy());
 			}
-			
 		}
+		
+		if(jeffSpittle.intersects(bobHitBox) && j2.getIFrame() == 0) {
+			
+			j2.iFramesInitiate();
+			j2.damageSpittle();
+			s.setX(0);
+			s.setY(1000);
+		}
+        if(bobSpittle.intersects(jeffHitBox) && j.getIFrame() == 0) {
+			
+			j.iFramesInitiate();
+			j.damageSpittle();
+			s2.setX(1200);
+			s2.setY(1000);
+		}
+		
 	}
 	
 	
@@ -196,7 +237,7 @@ public void paint(Graphics g) {
 			
 			j.setVy(15);
 		}
-		if(e.getKeyCode() == 69 && s.getVx() == 0) { //JEFF SHOOT PROJECTILE
+		if(e.getKeyCode() == 69 && s.getVx() == 0 && j.getIFrame() == 0) { //JEFF SHOOT PROJECTILE
 			
 			a.setReady(false);
 			
@@ -216,7 +257,7 @@ public void paint(Graphics g) {
 			}
 		   
 		   }
-         if(e.getKeyCode() == 155 && s2.getVx() == 0) { //BOB SHOOT PROJECTILE
+         if(e.getKeyCode() == 155 && s2.getVx() == 0 && j2.getIFrame() == 0) { //BOB SHOOT PROJECTILE
 			
         	 a2.setReady(false);
         	 
