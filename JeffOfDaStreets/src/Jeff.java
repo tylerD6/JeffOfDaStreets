@@ -20,6 +20,7 @@ public class Jeff {
 	private int iFrame;
 	private int health = 100;
 	private boolean dead = false;
+	private int overhealth;
 	
 	public Jeff() {
 		img = getImage("/Images/jeffIdleRight.gif");       //initial image and coordinates
@@ -51,6 +52,7 @@ public class Jeff {
 		physicLeft();
 		physicRight();
 		iFrames();
+		overhealth();
 		
 		x+=vx;
 
@@ -156,7 +158,17 @@ public class Jeff {
 		health-=7;
 	}
 	public void absorb() {
-		health+=3;
+		health+=7;
+	}
+	public void overhealth() {
+		
+		if(health > 100) {
+			overhealth++;
+		}
+		if(overhealth > 400) {
+			health--;
+			overhealth=0;
+		}
 	}
 	
 	

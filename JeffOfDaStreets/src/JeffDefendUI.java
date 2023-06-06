@@ -105,6 +105,9 @@ public class JeffDefendUI {
 	public int getDuration() {
 		return duration;
 	}
+	public int getBlockCooldown() {
+		return blockCooldown;
+	}
 	public void setReady(boolean newReady) {
 		ready = newReady;
 	}

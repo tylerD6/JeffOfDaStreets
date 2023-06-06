@@ -72,7 +72,10 @@ public void paint(Graphics g) {
 		
 		
 		g.setFont(jeffFont); //HEALTH BAR
-		if(j.getHealth() > 49) {
+		if(j.getHealth() > 100) { //over health
+			g.setColor(Color.blue);
+		}
+		if(j.getHealth() > 49 && j.getHealth() <=100) {
 			g.setColor(Color.green);
 			}
 			if(j.getHealth() > 20 && j.getHealth() < 50) {
@@ -83,7 +86,10 @@ public void paint(Graphics g) {
 			}
 		g.drawString(":"+(Integer.toString(j.getHealth())+"%"), 145, 675);
 		
-		if(j2.getHealth() > 49) {
+		if(j2.getHealth() > 100) { //over health
+			g.setColor(Color.blue);
+		}
+		if(j2.getHealth() > 49 && j2.getHealth() <=100) {
 		g.setColor(Color.green);
 		}
 		if(j2.getHealth() > 20 && j2.getHealth() < 50) {
@@ -100,7 +106,7 @@ public void paint(Graphics g) {
 		
 		if(s.getY() == -500) {
 			g.setColor(Color.green);
-			g.drawString("GO",265,640);
+			g.drawString("E",268,640);
 		}else {
 			
 			g.setColor(Color.red);
@@ -109,7 +115,7 @@ public void paint(Graphics g) {
 		
 		if(s2.getY() == -400) {
 			g.setColor(Color.green);
-			g.drawString("GO",943,640);
+			g.drawString("ENTER",933,640);
 		}else {
 			
 			g.setColor(Color.red);
@@ -121,7 +127,7 @@ public void paint(Graphics g) {
 		if(d.getReady() == true) { //JEFF
 			
 			g.setColor(Color.green);
-			g.drawString("GO",314,640);
+			g.drawString("Q",320,640);
 		}else {
 			
 			g.setColor(Color.red);
@@ -130,7 +136,7 @@ public void paint(Graphics g) {
         if(d2.getReady() == true) { //BOB
 			
 			g.setColor(Color.green);
-			g.drawString("GO",993,640);
+			g.drawString("SHIFT",984,640);
 		}else {
 			
 			g.setColor(Color.red);
@@ -370,7 +376,7 @@ public void paint(Graphics g) {
 				//UP = 38
 				//LEFT = 39
 		        //DOWN 40
-		if(j2.getIFrame() == 0 || j2.getIFrame() > 140) { //BOB CAN'T MOVE
+		if((j2.getIFrame() == 0 || j2.getIFrame() > 140) && d2.getDuration() == 0) { //BOB CAN'T MOVE
 		
 		if(e.getKeyCode() == 39) { //BOB MOVE
 			j2.setVx(10);

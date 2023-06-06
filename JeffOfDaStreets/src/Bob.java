@@ -21,6 +21,7 @@ public class Bob {
 	private int iFrame;
 	private int health = 100;
 	private boolean dead = false;
+	private int overhealth;
 	
 	public Bob() {
 		img = getImage("/Images/bobIdleLeft.gif");       //initial image and coordinates
@@ -52,6 +53,7 @@ public class Bob {
 		gravity();
 		iFrames();
 		death();
+		overhealth();
 		x+=vx;
 
 		if(y > 464) { //the ground
@@ -155,7 +157,7 @@ public class Bob {
     	 health-=7;
      }
      public void absorb() {
-    	 health+=3;
+    	 health+=7;
      }
 	
      public void death() {
@@ -165,6 +167,16 @@ public class Bob {
  			dead = true;
  			y = 900;
  			vy=0;
+ 		}
+ 	}
+     public void overhealth() {
+ 		
+ 		if(health > 100) {
+ 			overhealth++;
+ 		}
+ 		if(overhealth > 400) {
+ 			health--;
+ 			overhealth=0;
  		}
  	}
 	
