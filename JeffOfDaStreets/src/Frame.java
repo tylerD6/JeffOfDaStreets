@@ -263,6 +263,16 @@ public void paint(Graphics g) {
 			s.setY(1000);
 			j2.absorb();
         }
+        if(jeffBubble.intersects(bobBubble)) { //BUBBLES COLLIDE
+        	
+        	j.setVx(-2*j.getVx());
+        
+        }
+        if(bobBubble.intersects(jeffBubble)) {
+        	
+        	j2.setVx(-2*j2.getVx());
+        	
+        }
 	}
 	
 	
@@ -289,7 +299,7 @@ public void paint(Graphics g) {
 		if(d2.getDuration() == 0) {
 			
 			de2.setX(-200);
-			de2.setY(-200);
+			de2.setY(-400);
 		}
 	}
 	

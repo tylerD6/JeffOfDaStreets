@@ -20,7 +20,7 @@ public class BobBubble {
 		img = getImage("/Images/defenseBubble.png");
 		
 		x = -200;
-		y = -200;
+		y = -400;
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y); 				//initialize the location of the image
 									//use your variables
