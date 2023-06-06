@@ -5,23 +5,22 @@ import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
 
-public class BobAbilityUI {
+public class BobBubble {
 
 	private Image img;
-	private int x,y;
+	private double x,y;
 	private AffineTransform tx;
 	private boolean ready = true;
+	private int duration = 0;
 	
 	
 	
 	
-	
-	
-	public BobAbilityUI() {		//constructor sets background as it is
-		img = getImage("/Images/bobAbilityReady.png");
+	public BobBubble() {		//constructor sets background as it is
+		img = getImage("/Images/defenseBubble.png");
 		
-		x = 930;
-		y = 643;
+		x = -200;
+		y = -200;
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y); 				//initialize the location of the image
 									//use your variables
@@ -35,23 +34,18 @@ public class BobAbilityUI {
 		Graphics2D g2 = (Graphics2D) g;
 		update();
 		g2.drawImage(img, tx, null);
- 
 		
 	}
+
+
+
+
 	private void update() {				//fits it on the screen
 		tx.setToTranslation(x, y);
-		tx.scale(1,1);
+		tx.scale(1.5,1.5);
 		
-		if(ready == false) {
-			changePicture("/Images/bobUsedAbility.png");
-			tx.scale(0.18,0.3);
-			//System.out.println("no");
-		}else {
 		
-			changePicture("/Images/bobAbilityReady.png");
-			tx.scale(0.18,0.3);
-			//System.out.println("correct");
-		}
+		
 	}
 	
 	public void changePicture(String newFileName) {   // changes picture
@@ -66,24 +60,36 @@ public class BobAbilityUI {
 	private Image getImage(String path) {
 		 Image tempImage = null;
 		 try {
-			 URL imageURL = BobAbilityUI.class.getResource(path);
+			 URL imageURL = BobBubble.class.getResource(path);
 			 tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
 		 } catch (Exception e) {
 			 e.printStackTrace();
 		 }
 		 return tempImage;
 	 }
-	public int getX() {
+	public double getX() {
 		return x;
 	}
+	public double getY() {
+		return y;
+	}
 	
-	public void setX(int newX) {
+	public void setX(double newX) {
 		x = newX;
 	}
 	public boolean getReady() {
 		return ready;
 	}
+	public int getDuration() {
+		return duration;
+	}
 	public void setReady(boolean newReady) {
 		ready = newReady;
+	}
+	public void setY(double newY) {
+		y = newY;
+	}
+	public void setDuration(int newDuration) {
+		duration = newDuration;
 	}
 }

@@ -142,7 +142,7 @@ public class Bob {
 			iFrame++;
 			//System.out.println(iFrame);
 		}
-		if(iFrame > 180) {
+		if(iFrame > 200) {
 			iFrame = 0;
 			//System.out.println("off");
 			vx=0.001;
@@ -153,6 +153,9 @@ public class Bob {
 	}
      public void damageSpittle() {
     	 health-=7;
+     }
+     public void absorb() {
+    	 health+=3;
      }
 	
      public void death() {

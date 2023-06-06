@@ -27,6 +27,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	BobSpittle s2 = new BobSpittle();
 	JeffAbilityUI a = new JeffAbilityUI();
 	BobAbilityUI a2 = new BobAbilityUI();
+	JeffDefendUI d = new JeffDefendUI();
+	BobDefendUI d2 = new BobDefendUI();
+	JeffBubble de = new JeffBubble();
+	BobBubble de2 = new BobBubble();
 	
 	
 	
@@ -42,10 +46,15 @@ public void paint(Graphics g) {
 		s2.paint(g);
 		a.paint(g);
 		a2.paint(g);
+		d.paint(g);
+		de.paint(g);
+		d2.paint(g);
+		de2.paint(g);
+		
 		
 		
 		Font jeffFont = new Font("Courier New", Font.BOLD, 30);
-		Font charge = new Font("Courier New", Font.BOLD, 20);
+		Font charge = new Font("Courier New", Font.BOLD, 15);
 		
 		g.setColor(Color.red); //HITBOX FOR JEFF
 		g.drawRect((int)j.getX()+15, (int)j.getY()+70, 120, 80);
@@ -56,6 +65,9 @@ public void paint(Graphics g) {
 		g.setColor(Color.blue);
 		g.drawRect((int)s.getX()+60,(int)s.getY()+10, 80, 60); //VISUAL HITBOX OF SPITTLE
 		g.drawRect((int)s2.getX()+60,(int)s2.getY()+10, 80, 60);
+		
+		g.drawRect((int)de.getX()-10,(int)de.getY()-10, 165, 160); //VISUAL HITBOX FOR JEFF BLOCK
+		g.drawRect((int)de2.getX()-10,(int)de2.getY()-10, 165, 160); //VISUAL HITBOX FOR BOB BLOCK
 		
 		
 		
@@ -69,7 +81,7 @@ public void paint(Graphics g) {
 			if(j.getHealth() <=20) {
 				g.setColor(Color.red);
 			}
-		g.drawString(":"+(Integer.toString(j.getHealth())+"%"), 210, 675);
+		g.drawString(":"+(Integer.toString(j.getHealth())+"%"), 145, 675);
 		
 		if(j2.getHealth() > 49) {
 		g.setColor(Color.green);
@@ -80,7 +92,7 @@ public void paint(Graphics g) {
 		if(j2.getHealth() <=20) {
 			g.setColor(Color.red);
 		}
-		g.drawString(":"+(Integer.toString(j2.getHealth())+"%"), 900, 675);
+		g.drawString(":"+(Integer.toString(j2.getHealth())+"%"), 830, 675);
 		
 		//CHARGE STATE
 		
@@ -88,26 +100,48 @@ public void paint(Graphics g) {
 		
 		if(s.getY() == -500) {
 			g.setColor(Color.green);
-			g.drawString("READY",10,640);
+			g.drawString("GO",265,640);
 		}else {
 			
 			g.setColor(Color.red);
-			g.drawString("COOLDOWN",10,640);
+			g.drawString("WAIT",257,640);
 		}
 		
 		if(s2.getY() == -400) {
 			g.setColor(Color.green);
-			g.drawString("READY",695,640);
+			g.drawString("GO",943,640);
 		}else {
 			
 			g.setColor(Color.red);
-			g.drawString("COOLDOWN",695,640);
+			g.drawString("WAIT",935,640);
 		}
 		
+		//DEFEND STATE
+		
+		if(d.getReady() == true) { //JEFF
+			
+			g.setColor(Color.green);
+			g.drawString("GO",314,640);
+		}else {
+			
+			g.setColor(Color.red);
+			g.drawString("WAIT",306,640);
+		}
+        if(d2.getReady() == true) { //BOB
+			
+			g.setColor(Color.green);
+			g.drawString("GO",993,640);
+		}else {
+			
+			g.setColor(Color.red);
+			g.drawString("WAIT",985,640);
+		}
 		
 		
 		hit();
 		rechargeJeff();
+		jeffBubbleFollow();
+		bobBubbleFollow();
 }
 
     public void rechargeJeff() {
@@ -150,8 +184,11 @@ public void paint(Graphics g) {
 		Rectangle jeffSpittle = new Rectangle((int)s.getX()+60,(int)s.getY()+10, 80, 60);
 		Rectangle bobSpittle = new Rectangle((int)s2.getX()+60,(int)s2.getY()+10, 80, 60);
 		
+		Rectangle jeffBubble = new Rectangle((int)de.getX()-10,(int)de.getY()-10, 165, 160);
+		Rectangle bobBubble = new Rectangle((int)de2.getX()-10,(int)de2.getY()-10, 165, 160);
+		
 		if(jeffHitBox.intersects(bobHitBox) || bobHitBox.intersects(jeffHitBox)) {
-			if(j.getY() < j2.getY() && j.getVy() > 0 && j2.getIFrame() == 0) { //BOB HITS JEFF
+			if(j.getY() < j2.getY() && j.getVy() > 0 && j2.getIFrame() == 0 && j.getIFrame() == 0 && d.getDuration() == 0) { //BOB HITS JEFF
 				
 				System.out.println("bob hit");
 				//j2.setX(700);
@@ -161,7 +198,7 @@ public void paint(Graphics g) {
 				j.setVx(-1*j.getVx());
 				j.setVy(-1.5*j.getVy());
 			}
-			if(j2.getY() < j.getY() && j2.getVy() > 0 && j.getIFrame() == 0) { //JEFF HITS BOB
+			if(j2.getY() < j.getY() && j2.getVy() > 0 && j.getIFrame() == 0 && j2.getIFrame() == 0) { //JEFF HITS BOB
 				
 				System.out.println("jeff hit");
 				//j.setX(200);
@@ -173,25 +210,82 @@ public void paint(Graphics g) {
 			}
 		}
 		
-		if(jeffSpittle.intersects(bobHitBox) && j2.getIFrame() == 0) {
+		if(jeffSpittle.intersects(bobHitBox) && j2.getIFrame() == 0) { //JEFF SPITS ON BOB
 			
 			j2.iFramesInitiate();
 			j2.damageSpittle();
 			s.setX(0);
 			s.setY(1000);
 		}
-        if(bobSpittle.intersects(jeffHitBox) && j.getIFrame() == 0) {
+        if(bobSpittle.intersects(jeffHitBox) && j.getIFrame() == 0) { //BOB SPITS ON JEFF
 			
 			j.iFramesInitiate();
 			j.damageSpittle();
 			s2.setX(1200);
 			s2.setY(1000);
 		}
-		
+        if(jeffSpittle.intersects(bobSpittle)) { //SPITTLE COLLIDES
+        	
+        	s.setX(1100);
+        	s.setY(-100);
+        	s2.setX(1100);
+        	s2.setY(1200);
+        }
+        
+        //BUBBLE COLLISIONS
+        
+        if(bobHitBox.intersects(jeffBubble) && j2.getY() < j.getY()) { //JEFF BLOCKS BOB
+        	
+        	j2.setVx(-1.2*j2.getVx());
+        	j2.setVy(-1.2*j2.getVy());
+        }
+        if(jeffHitBox.intersects(bobBubble) && j.getY() < j2.getY()) { //BOB BLOCKS BOB
+        	
+        	j.setVx(-1.2*j.getVx());
+        	j.setVy(-1.2*j.getVy());
+        }
+        
+        if(bobSpittle.intersects(jeffBubble)) { //JEFF ABSORBS SPITTLE
+        	
+        	s2.setX(1200);
+			s2.setY(1000);
+			j.absorb();
+        }
+        if(jeffSpittle.intersects(bobBubble)) { //BOB ABSORBS SPITTLE
+        	
+        	s.setX(1200);
+			s.setY(1000);
+			j2.absorb();
+        }
 	}
 	
 	
-	
+	public void jeffBubbleFollow() {
+		
+		if(d.getDuration() > 0) {
+			
+			 de.setX(j.getX());
+        	 de.setY(j.getY()+40);
+		}
+		if(d.getDuration() == 0) {
+			
+			de.setX(-200);
+			de.setY(-200);
+		}
+	}
+    public void bobBubbleFollow() {
+		
+		if(d2.getDuration() > 0) {
+			
+			 de2.setX(j2.getX());
+        	 de2.setY(j2.getY()+40);
+		}
+		if(d2.getDuration() == 0) {
+			
+			de2.setX(-200);
+			de2.setY(-200);
+		}
+	}
 	
 	
 	
@@ -217,9 +311,9 @@ public void paint(Graphics g) {
 		//LEFT = 65
 		//DOWN 83
 		
-		if(j.getDead() == false && j2.getDead() == false) {
+		if(j.getDead() == false && j2.getDead() == false) { //BOTH CAN'T MOVE
 		
-		if(j.getIFrame() == 0 || j.getIFrame() > 140) {
+		if((j.getIFrame() == 0 || j.getIFrame() > 140) && d.getDuration() == 0) { //JEFF CAN'T MOVE
 		
 		if(e.getKeyCode() == 68) { //JEFF MOVE
 			j.setVx(10);
@@ -257,26 +351,18 @@ public void paint(Graphics g) {
 			}
 		   
 		   }
-         if(e.getKeyCode() == 155 && s2.getVx() == 0 && j2.getIFrame() == 0) { //BOB SHOOT PROJECTILE
-			
-        	 a2.setReady(false);
+         
+         
+         if(e.getKeyCode() == 81 && d.getDuration() == 0 && d.getReady() == true) { //JEFF BUBBLE
         	 
-			if(j2.getFaceRight() == true) { 
-			s2.setX(j2.getX()+50);
-			s2.setY(j2.getY()+70);
-			
-			s2.setVx(10);
-			
-			
-			}else{
-				s2.setX(j2.getX()-50);
-				s2.setY(j2.getY()+70);
-				
-				s2.setVx(-10);
-				
-			}
-		   
-		   }
+        	 d.setReady(false);
+        	 d.setDuration(1);
+        	 de.setX(j.getX());
+        	 de.setY(j.getY());
+        	 j.setVx(0);
+        	 j.setVy(0);
+           }
+         
 		}
 		
 		        //BOB:
@@ -284,7 +370,7 @@ public void paint(Graphics g) {
 				//UP = 38
 				//LEFT = 39
 		        //DOWN 40
-		if(j2.getIFrame() == 0 || j2.getIFrame() > 140) {
+		if(j2.getIFrame() == 0 || j2.getIFrame() > 140) { //BOB CAN'T MOVE
 		
 		if(e.getKeyCode() == 39) { //BOB MOVE
 			j2.setVx(10);
@@ -301,7 +387,34 @@ public void paint(Graphics g) {
 			
 			j2.setVy(15);
 		    }
-		  }
+        if(e.getKeyCode() == 16 && d2.getDuration() == 0 && d2.getReady() == true) { //BOB BUBBLE
+       	 
+       	 d2.setReady(false);
+       	 d2.setDuration(1);
+       	 de2.setX(j2.getX());
+       	 de2.setY(j2.getY()+40);
+       	 j2.setVx(0);
+       	 j2.setVy(0);
+          }
+        if(e.getKeyCode() == 10 && s2.getVx() == 0 && j2.getIFrame() == 0) { //BOB SHOOT PROJECTILE
+			
+       	 a2.setReady(false);
+       	 
+			if(j2.getFaceRight() == true) { 
+			s2.setX(j2.getX()+50);
+			s2.setY(j2.getY()+70);
+			
+			s2.setVx(10);
+			
+			
+			}else{
+				s2.setX(j2.getX()-50);
+				s2.setY(j2.getY()+70);
+				
+				s2.setVx(-10);
+			  }
+		   }
+		 }
 	   }
 	}
 

@@ -16,7 +16,7 @@ public class JeffHealthBar {
 	public JeffHealthBar() {		//constructor sets background as it is
 		img = getImage("/Images/jeffHealth.png");
 		
-		x = 60;
+		x = 0;
 		y = 640;
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y); 				//initialize the location of the image
