@@ -194,7 +194,7 @@ public void paint(Graphics g) {
 		Rectangle bobBubble = new Rectangle((int)de2.getX()-10,(int)de2.getY()-10, 165, 160);
 		
 		if(jeffHitBox.intersects(bobHitBox) || bobHitBox.intersects(jeffHitBox)) {
-			if(j.getY() < j2.getY() && j.getVy() > 0 && j2.getIFrame() == 0 && j.getIFrame() == 0 && d.getDuration() == 0) { //BOB HITS JEFF
+			if(j.getY() < j2.getY() && j.getVy() > 0 && j2.getIFrame() == 0 && j.getIFrame() == 0 && d.getDuration() == 0 && j.getDazed() == false) { //BOB HITS JEFF
 				
 				System.out.println("bob hit");
 				//j2.setX(700);
@@ -204,7 +204,7 @@ public void paint(Graphics g) {
 				j.setVx(-1*j.getVx());
 				j.setVy(-1.5*j.getVy());
 			}
-			if(j2.getY() < j.getY() && j2.getVy() > 0 && j.getIFrame() == 0 && j2.getIFrame() == 0) { //JEFF HITS BOB
+			if(j2.getY() < j.getY() && j2.getVy() > 0 && j.getIFrame() == 0 && j2.getIFrame() == 0 && j2.getDazed() == false) { //JEFF HITS BOB
 				
 				System.out.println("jeff hit");
 				//j.setX(200);
@@ -244,11 +244,13 @@ public void paint(Graphics g) {
         	
         	j2.setVx(-1.2*j2.getVx());
         	j2.setVy(-1.2*j2.getVy());
+        	j2.setDazed(true);
         }
-        if(jeffHitBox.intersects(bobBubble) && j.getY() < j2.getY()) { //BOB BLOCKS BOB
+        if(jeffHitBox.intersects(bobBubble) && j.getY() < j2.getY()) { //BOB BLOCKS JEFF
         	
         	j.setVx(-1.2*j.getVx());
         	j.setVy(-1.2*j.getVy());
+        	j.setDazed(true);
         }
         
         if(bobSpittle.intersects(jeffBubble)) { //JEFF ABSORBS SPITTLE
@@ -329,7 +331,7 @@ public void paint(Graphics g) {
 		
 		if(j.getDead() == false && j2.getDead() == false) { //BOTH CAN'T MOVE
 		
-		if((j.getIFrame() == 0 || j.getIFrame() > 140) && d.getDuration() == 0) { //JEFF CAN'T MOVE
+		if((j.getIFrame() == 0 || j.getIFrame() > 140) && d.getDuration() == 0 && j.getDazed() == false) { //JEFF CAN'T MOVE
 		
 		if(e.getKeyCode() == 68) { //JEFF MOVE
 			j.setVx(10);
@@ -347,7 +349,7 @@ public void paint(Graphics g) {
 			
 			j.setVy(15);
 		}
-		if(e.getKeyCode() == 69 && s.getVx() == 0 && j.getIFrame() == 0) { //JEFF SHOOT PROJECTILE
+		if(e.getKeyCode() == 84 && s.getVx() == 0 && j.getIFrame() == 0) { //JEFF SHOOT PROJECTILE
 			
 			a.setReady(false);
 			
@@ -369,7 +371,7 @@ public void paint(Graphics g) {
 		   }
          
          
-         if(e.getKeyCode() == 81 && d.getDuration() == 0 && d.getReady() == true) { //JEFF BUBBLE
+         if(e.getKeyCode() == 71 && d.getDuration() == 0 && d.getReady() == true) { //JEFF BUBBLE
         	 
         	 d.setReady(false);
         	 d.setDuration(1);
@@ -386,7 +388,7 @@ public void paint(Graphics g) {
 				//UP = 38
 				//LEFT = 39
 		        //DOWN 40
-		if((j2.getIFrame() == 0 || j2.getIFrame() > 140) && d2.getDuration() == 0) { //BOB CAN'T MOVE
+		if((j2.getIFrame() == 0 || j2.getIFrame() > 140) && d2.getDuration() == 0 && j2.getDazed() == false) { //BOB CAN'T MOVE
 		
 		if(e.getKeyCode() == 39) { //BOB MOVE
 			j2.setVx(10);

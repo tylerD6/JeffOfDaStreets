@@ -21,6 +21,8 @@ public class Jeff {
 	private int health = 100;
 	private boolean dead = false;
 	private int overhealth;
+	private boolean dazed = false;
+	private int dazeDuration = 0;
 	
 	public Jeff() {
 		img = getImage("/Images/jeffIdleRight.gif");       //initial image and coordinates
@@ -53,6 +55,7 @@ public class Jeff {
 		physicRight();
 		iFrames();
 		overhealth();
+		dazed();
 		
 		x+=vx;
 
@@ -104,6 +107,10 @@ public class Jeff {
 		}
 		if(iFrame > 0) {
 			changePicture("/Images/jeffSquashed.gif");
+			tx.scale(0.3,0.3);
+		}
+		if(dazed == true) {
+			changePicture("/Images/jeffDazed.gif");
 			tx.scale(0.3,0.3);
 		}
 	}
@@ -170,6 +177,17 @@ public class Jeff {
 			overhealth=0;
 		}
 	}
+	public void dazed() {
+		
+		if(dazed == true) {
+			dazeDuration++;
+		}
+		if(dazeDuration > 150) {
+			dazed = false;
+			dazeDuration = 0;
+			vx=0.001;
+		}
+	}
 	
 	
 	
@@ -223,9 +241,11 @@ public class Jeff {
 		vy = newVy;
 	}
     public int getDoubleJump() {
-		
 		return doubleJump;
 	}
+    public boolean getDazed() {
+    	return dazed;
+    }
 	public void setDoubleJump(int newDoubleJump) {
 		doubleJump = newDoubleJump;
 	}
@@ -240,5 +260,8 @@ public class Jeff {
 	}
 	public boolean getFaceRight() {
 		return faceRight;
+	}
+	public void setDazed(boolean newDazed) {
+		dazed = newDazed;
 	}
 }

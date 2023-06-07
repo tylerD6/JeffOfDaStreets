@@ -22,6 +22,8 @@ public class Bob {
 	private int health = 100;
 	private boolean dead = false;
 	private int overhealth;
+	private boolean dazed = false;
+	private int dazeDuration = 0;
 	
 	public Bob() {
 		img = getImage("/Images/bobIdleLeft.gif");       //initial image and coordinates
@@ -54,6 +56,7 @@ public class Bob {
 		iFrames();
 		death();
 		overhealth();
+		dazed();
 		x+=vx;
 
 		if(y > 464) { //the ground
@@ -104,6 +107,10 @@ public class Bob {
 		}
 		if(iFrame > 0) {
 			changePicture("/Images/bobSquashed.gif");
+			tx.scale(0.3,0.3);
+		}
+		if(dazed == true) {
+			changePicture("/Images/bobDazed.gif");
 			tx.scale(0.3,0.3);
 		}
 	}
@@ -179,6 +186,17 @@ public class Bob {
  			overhealth=0;
  		}
  	}
+     public void dazed() {
+ 		
+ 		if(dazed == true) {
+ 			dazeDuration++;
+ 		}
+ 		if(dazeDuration > 150) {
+ 			dazed = false;
+ 			dazeDuration = 0;
+ 			vx = 0.001;
+ 		}
+ 	}
 	
 	
 	
@@ -252,6 +270,12 @@ public class Bob {
 	public boolean getDead() {
 		return dead;
 	}
+	 public boolean getDazed() {
+	    	return dazed;
+	    }
+	 public void setDazed(boolean newDazed) {
+			dazed = newDazed;
+		}
 }
 
 
