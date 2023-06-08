@@ -197,7 +197,7 @@ public void paint(Graphics g) {
 			if(j.getY() < j2.getY() && j.getVy() > 0 && j2.getIFrame() == 0 && j.getIFrame() == 0 && d.getDuration() == 0 && j.getDazed() == false) { //BOB HITS JEFF
 				
 				System.out.println("bob hit");
-				//j2.setX(700);
+				//j2.setX(700); ///
 				j2.iFramesInitiate();
 				j2.damageJump();
 				j2.setVy(20);
