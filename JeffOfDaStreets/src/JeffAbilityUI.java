@@ -18,7 +18,7 @@ public class JeffAbilityUI {
 	public JeffAbilityUI() {		//constructor sets background as it is
 		img = getImage("/Images/jeffAbilityReady.png");
 		
-		x = 250;
+		x = 280;
 		y = 643;
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y); 				//initialize the location of the image

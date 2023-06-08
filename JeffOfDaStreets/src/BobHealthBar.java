@@ -16,7 +16,7 @@ public class BobHealthBar {
 	public BobHealthBar() {		//constructor sets background as it is
 		img = getImage("/Images/bobHealth.png");
 		
-		x = 685;
+		x = 655;
 		y = 640;
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y); 				//initialize the location of the image

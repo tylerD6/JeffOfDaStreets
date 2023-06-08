@@ -13,6 +13,8 @@ public class Background {
 	private Image img;
 	private int x,y;
 	private AffineTransform tx;
+	private boolean pummel = false;
+	private int pummelTimer = 0;
 	
 	
 	
@@ -40,6 +42,19 @@ public class Background {
 	private void update() {				//fits it on the screen
 		tx.setToTranslation(x, y);
 		tx.scale(0.75,0.75);
+		
+		pummel();
+		
+		if(pummelTimer > 0 && pummelTimer < 5) {
+			x = 50;
+		}
+		if(pummelTimer > 5 && pummelTimer < 10) {
+			x = -50;
+		}
+		if(pummelTimer == 0) {
+			x = 0;
+		}
+		
 	}
 	
 	private void init(double a, double b) {
@@ -56,6 +71,18 @@ public class Background {
 		 }
 		 return tempImage;
 	 }
+	public void pummel() {
+		if(pummel == true) {
+			pummelTimer++;
+		}
+		if(pummelTimer > 20) {
+			pummel = false;
+			pummelTimer = 0;
+		}
+	}
+	public void setPummel(boolean newPummel) {
+		pummel = newPummel;
+	}
 	
 }
 

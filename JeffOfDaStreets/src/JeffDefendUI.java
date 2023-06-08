@@ -20,7 +20,7 @@ public class JeffDefendUI {
 	public JeffDefendUI() {		//constructor sets background as it is
 		img = getImage("/Images/defendAbilityReady.png");
 		
-		x = 300;
+		x = 330;
 		y = 643;
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y); 				//initialize the location of the image

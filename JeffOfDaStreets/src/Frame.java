@@ -84,7 +84,7 @@ public void paint(Graphics g) {
 			if(j.getHealth() <=20) {
 				g.setColor(Color.red);
 			}
-		g.drawString(":"+(Integer.toString(j.getHealth())+"%"), 145, 675);
+		g.drawString(":"+(Integer.toString(j.getHealth())+"."+(Integer.toString(j.getPercentHealth()))+"%"), 145, 675);
 		
 		if(j2.getHealth() > 100) { //over health
 			g.setColor(Color.blue);
@@ -98,7 +98,7 @@ public void paint(Graphics g) {
 		if(j2.getHealth() <=20) {
 			g.setColor(Color.red);
 		}
-		g.drawString(":"+(Integer.toString(j2.getHealth())+"%"), 830, 675);
+		g.drawString(":"+(Integer.toString(j2.getHealth())+"."+(Integer.toString(j2.getPercentHealth()))+"%"), 800, 675);
 		
 		//CHARGE STATE
 		
@@ -106,11 +106,11 @@ public void paint(Graphics g) {
 		
 		if(s.getY() == -500) {
 			g.setColor(Color.green);
-			g.drawString("E",268,640);
+			g.drawString("E",298,640);
 		}else {
 			
 			g.setColor(Color.red);
-			g.drawString("WAIT",257,640);
+			g.drawString("WAIT",287,640);
 		}
 		
 		if(s2.getY() == -400) {
@@ -127,11 +127,11 @@ public void paint(Graphics g) {
 		if(d.getReady() == true) { //JEFF
 			
 			g.setColor(Color.green);
-			g.drawString("Q",320,640);
+			g.drawString("Q",350,640);
 		}else {
 			
 			g.setColor(Color.red);
-			g.drawString("WAIT",306,640);
+			g.drawString("WAIT",336,640);
 		}
         if(d2.getReady() == true) { //BOB
 			
@@ -200,9 +200,16 @@ public void paint(Graphics g) {
 				//j2.setX(700);
 				j2.iFramesInitiate();
 				j2.damageJump();
+				j2.setVy(20);
 				
 				j.setVx(-1*j.getVx());
 				j.setVy(-1.5*j.getVy());
+				
+				if(j2.getY() < 200) {
+					System.out.println("pummel bob");
+					b.pummel();
+					b.setPummel(true);
+				}
 			}
 			if(j2.getY() < j.getY() && j2.getVy() > 0 && j.getIFrame() == 0 && j2.getIFrame() == 0 && j2.getDazed() == false) { //JEFF HITS BOB
 				
@@ -210,9 +217,16 @@ public void paint(Graphics g) {
 				//j.setX(200);
 				j.iFramesInitiate();
 				j.damageJump();
+				j.setVy(20);
 				
 				j2.setVx(-1*j2.getVx());
 				j2.setVy(-1.5*j2.getVy());
+				
+				if(j.getY() < 200) {
+					System.out.println("pummel jeff");
+					b.pummel();
+					b.setPummel(true);
+				}
 			}
 		}
 		
@@ -342,14 +356,16 @@ public void paint(Graphics g) {
 		
 		if(e.getKeyCode() == 87 && j.getDoubleJump() > 0) { //double jump
 			j.setVy(-12.5);
+			j2.setStrongJump(false);
 			j.doubleJumpCount();
 		}
 		
-		if(e.getKeyCode() == 83) {
+		if(e.getKeyCode() == 83) { //FAST FALL
 			
+			j2.setStrongJump(true);
 			j.setVy(15);
 		}
-		if(e.getKeyCode() == 84 && s.getVx() == 0 && j.getIFrame() == 0) { //JEFF SHOOT PROJECTILE
+		if(e.getKeyCode() == 69 && s.getVx() == 0 && j.getIFrame() == 0) { //JEFF SHOOT PROJECTILE
 			
 			a.setReady(false);
 			
@@ -371,7 +387,7 @@ public void paint(Graphics g) {
 		   }
          
          
-         if(e.getKeyCode() == 71 && d.getDuration() == 0 && d.getReady() == true) { //JEFF BUBBLE
+         if(e.getKeyCode() == 81 && d.getDuration() == 0 && d.getReady() == true) { //JEFF BUBBLE
         	 
         	 d.setReady(false);
         	 d.setDuration(1);
@@ -397,12 +413,14 @@ public void paint(Graphics g) {
 			j2.setVx(-10);
 		}
 		
-		if(e.getKeyCode() == 38 && j2.getDoubleJump() > 0) {
+		if(e.getKeyCode() == 38 && j2.getDoubleJump() > 0) { //BOB DOUBLE JUMP
+			j.setStrongJump(false);
 			j2.setVy(-12.5);
 			j2.doubleJumpCount();
 		}
-        if(e.getKeyCode() == 40) {
+        if(e.getKeyCode() == 40) { //FAST FALL
 			
+        	j.setStrongJump(true);
 			j2.setVy(15);
 		    }
         if(e.getKeyCode() == 16 && d2.getDuration() == 0 && d2.getReady() == true) { //BOB BUBBLE

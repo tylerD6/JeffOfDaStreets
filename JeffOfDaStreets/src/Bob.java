@@ -20,10 +20,13 @@ public class Bob {
 	private double physRight;
 	private int iFrame;
 	private int health = 100;
+	private int percentHealth = 0;
 	private boolean dead = false;
 	private int overhealth;
 	private boolean dazed = false;
 	private int dazeDuration = 0;
+	private int regen;
+	private boolean strongJump = false;
 	
 	public Bob() {
 		img = getImage("/Images/bobIdleLeft.gif");       //initial image and coordinates
@@ -57,6 +60,7 @@ public class Bob {
 		death();
 		overhealth();
 		dazed();
+		regenerate();
 		x+=vx;
 
 		if(y > 464) { //the ground
@@ -158,10 +162,17 @@ public class Bob {
 		}
 	}
      public void damageJump() {
-		health-=9;
+    	 if(strongJump == true) {
+ 			health -=12;
+ 			regen = -750;
+ 		}else {
+ 			health -=9;
+ 			regen = -500;
+ 		}
 	}
      public void damageSpittle() {
     	 health-=7;
+    	 regen = -500;
      }
      public void absorb() {
     	 health+=7;
@@ -181,20 +192,39 @@ public class Bob {
  		if(health > 100) {
  			overhealth++;
  		}
- 		if(overhealth > 400) {
- 			health--;
+ 		if(overhealth > 100) {
+ 			percentHealth--;
  			overhealth=0;
  		}
+ 		if(percentHealth < 0) {
+			percentHealth = 9;
+			health--;
+		}
  	}
      public void dazed() {
  		
  		if(dazed == true) {
  			dazeDuration++;
+ 			regen = -500;
  		}
  		if(dazeDuration > 150) {
  			dazed = false;
  			dazeDuration = 0;
  			vx = 0.001;
+ 		}
+ 	}
+     public void regenerate() {
+ 		
+    	 if(dead == false && health < 100) {
+ 			regen++;
+ 		}
+ 		if(regen > 40) {
+ 			percentHealth++;
+ 			regen = 0;
+ 		}
+ 		if(percentHealth > 9) {
+ 			percentHealth = 0;
+ 			health++;
  		}
  	}
 	
@@ -273,8 +303,14 @@ public class Bob {
 	 public boolean getDazed() {
 	    	return dazed;
 	    }
+	 public int getPercentHealth() {
+			return percentHealth;
+		}
 	 public void setDazed(boolean newDazed) {
 			dazed = newDazed;
+		}
+	 public void setStrongJump(boolean newStrongJump) {
+			strongJump = newStrongJump;
 		}
 }
 
