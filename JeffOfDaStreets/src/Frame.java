@@ -201,7 +201,7 @@ public void paint(Graphics g) {
 				j2.iFramesInitiate();
 				j2.damageJump();
 				j2.setVy(20);
-				
+				//
 				j.setVx(-1*j.getVx());
 				j.setVy(-1.5*j.getVy());
 				
