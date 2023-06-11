@@ -32,12 +32,17 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	JeffBubble de = new JeffBubble();
 	BobBubble de2 = new BobBubble();
 	
+	private boolean startGame = false;
 	
 	
-public void paint(Graphics g) {
+	
+public void paint(Graphics g) { //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
 		
 		super.paintComponents(g);
+		
 		b.paint(g);
+		
+		if(startGame == true) {
 		j.paint(g);
 		j2.paint(g);
 		h1.paint(g);
@@ -148,6 +153,7 @@ public void paint(Graphics g) {
 		rechargeJeff();
 		jeffBubbleFollow();
 		bobBubbleFollow();
+		}
 }
 
     public void rechargeJeff() {
@@ -342,6 +348,11 @@ public void paint(Graphics g) {
 		//UP = 87
 		//LEFT = 65
 		//DOWN 83
+		if(e.getKeyCode() == 32 && b.getDuration() > 400) {
+			
+			startGame = true;
+			b.changeScreen();
+		}
 		
 		if(j.getDead() == false && j2.getDead() == false) { //BOTH CAN'T MOVE
 		

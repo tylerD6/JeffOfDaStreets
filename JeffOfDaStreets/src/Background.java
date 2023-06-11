@@ -15,11 +15,14 @@ public class Background {
 	private AffineTransform tx;
 	private boolean pummel = false;
 	private int pummelTimer = 0;
+	private boolean startScreen = true;
+	private int startScreenDuration = 0;
+	private boolean changeScreen = false;
 	
 	
 	
 	public Background() {		//constructor sets background as it is
-		img = getImage("/Images/background.gif");
+		img = getImage("/Images/startScreen.gif");
 		
 		x = 0;
 		y = 0;
@@ -41,9 +44,10 @@ public class Background {
 	}
 	private void update() {				//fits it on the screen
 		tx.setToTranslation(x, y);
-		tx.scale(0.75,0.75);
+		tx.scale(1.48,1.43);
 		
 		pummel();
+		startScreen();
 		
 		if(pummelTimer > 0 && pummelTimer < 5) {
 			x = 50;
@@ -54,7 +58,22 @@ public class Background {
 		if(pummelTimer == 0) {
 			x = 0;
 		}
-		
+		if(startScreenDuration > 400) {
+			changePicture("/Images/playScreen.png");
+			tx.scale(0.165,0.285);
+		}
+		if(changeScreen == true) {
+			changePicture("/Images/background.gif");
+			tx.scale(0.0822,0.145);
+		}
+	}
+	
+	public void startScreen() {
+		startScreenDuration++;
+		//System.out.println(startScreenDuration);
+	}
+	public void changeScreen() {
+		changeScreen = true;
 	}
 	
 	private void init(double a, double b) {
@@ -71,6 +90,10 @@ public class Background {
 		 }
 		 return tempImage;
 	 }
+	public void changePicture(String newFileName) {   // changes picture
+		img = getImage(newFileName);
+		init(x, y);
+	}
 	public void pummel() {
 		if(pummel == true) {
 			pummelTimer++;
@@ -82,6 +105,9 @@ public class Background {
 	}
 	public void setPummel(boolean newPummel) {
 		pummel = newPummel;
+	}
+	public int getDuration() {
+		return startScreenDuration;
 	}
 	
 }

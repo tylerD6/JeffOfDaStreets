@@ -121,7 +121,7 @@ public class Bob {
 	
 	
 	public void gravity() {
-		accelerate = 0.3;
+		accelerate = 0.4;
 		y+=vy;
 		vy+=accelerate;
 	}
